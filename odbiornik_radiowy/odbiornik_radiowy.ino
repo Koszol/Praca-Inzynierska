@@ -46,5 +46,6 @@ void readUS() {
   digitalWrite(fake_sig, LOW);
   czas = pulseIn(echo, HIGH);
   distance=0.0344*czas;
-  Serial.println(distance-962+25);
+  Serial.print(distance-962+25);
+  Serial.println(" cm");
 }
