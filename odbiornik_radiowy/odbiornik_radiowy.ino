@@ -2,6 +2,8 @@
 #include <nRF24L01.h>
 #include <RF24.h>
 
+#include <LiquidCrystal.h> //Dołączenie bilbioteki
+LiquidCrystal lcd(A0, A1, 2, 3, 4, 5); //Informacja o podłączeniu nowego wyświetlacza
 const int CE = 9;
 const int CSN = 10;
 RF24 radio(CE, CSN); //CE,CSN
@@ -14,14 +16,22 @@ long czas;
 float distance;
 
 void setup() {
+
+  lcd.begin(16, 2);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Odleglosc:");
+  lcd.setCursor(0, 1);
+  lcd.print("0.00cm");
+
   Serial.begin(9600);
   radio.begin();
   radio.setPayloadSize(sizeof(payload));
   radio.openWritingPipe(address[0]);
   radio.openReadingPipe(1, address[1]);
   radio.setPALevel(RF24_PA_MIN);
-  pinMode(fake_sig,OUTPUT);
-  pinMode(echo,INPUT);
+  pinMode(fake_sig, OUTPUT);
+  pinMode(echo, INPUT);
 }
 
 void loop() {
@@ -32,10 +42,10 @@ void loop() {
   unsigned long end_timer = micros();
   readUS();
   /*Serial.print("Received:");
-  Serial.println(payload);
-  Serial.print("Time: ");
-  Serial.print(end_timer - start_timer);
-  Serial.print("us.");
+    Serial.println(payload);
+    Serial.print("Time: ");
+    Serial.print(end_timer - start_timer);
+    Serial.print("us.");
   */
   //delay(500);
 }
@@ -45,7 +55,15 @@ void readUS() {
   delayMicroseconds(10);
   digitalWrite(fake_sig, LOW);
   czas = pulseIn(echo, HIGH);
-  distance=0.0344*czas;
-  Serial.print(distance-962+25);
+  distance = 0.0344 * czas;
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Odleglosc:");
+  lcd.setCursor(0, 1);
+  lcd.print(distance - 962 + 18);
+  lcd.print(" cm");
+
+  Serial.print(distance - 962 + 18);
   Serial.println(" cm");
+
 }
