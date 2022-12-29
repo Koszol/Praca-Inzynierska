@@ -33,7 +33,7 @@ void loop() {
   Serial.println(payload);
 
 
-  delay(1000);
+  delay(3000);
 }
 
 void sendUS() {

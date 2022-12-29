@@ -60,10 +60,10 @@ void readUS() {
   lcd.setCursor(0, 0);
   lcd.print("Odleglosc:");
   lcd.setCursor(0, 1);
-  lcd.print(distance - 962 + 18);
+  lcd.print(distance - 7);
   lcd.print(" cm");
 
-  Serial.print(distance - 962 + 18);
+  Serial.print(distance - 962 + 23);
   Serial.println(" cm");
 
 }
